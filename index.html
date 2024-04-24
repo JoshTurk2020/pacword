@@ -47,15 +47,44 @@
     const targetWordElement = document.getElementById('target-word');
     const wordsData = [
       { word: 'happy', synonyms: ['joyful', 'cheerful', 'elated'], nonSynonyms: ['sad', 'angry', 'tired'] },
+      { word: 'fast', synonyms: ['quick', 'swift', 'rapid'], nonSynonyms: ['slow', 'sluggish', 'leisurely', 'gradual', 'unhurried', 'measured', 'steady', 'plodding', 'crawling', 'snail-paced'] },
+      { word: 'slow', synonyms: ['sluggish', 'leisurely', 'unhurried'], nonSynonyms: ['fast', 'quick', 'swift', 'rapid', 'speedy', 'brisk', 'hasty', 'hurried', 'expeditious', 'fleet'] },
+      { word: 'hot', synonyms: ['scorching', 'sizzling', 'fiery'], nonSynonyms: ['cold', 'freezing', 'chilly', 'cool', 'lukewarm', 'tepid', 'frosty', 'icy', 'frigid', 'wintry'] },
+      { word: 'cold', synonyms: ['freezing', 'chilly', 'icy'], nonSynonyms: ['hot', 'warm', 'balmy', 'sultry', 'sweltering', 'scorching', 'fiery', 'sizzling', 'blazing', 'broiling'] },
+      { word: 'beautiful', synonyms: ['lovely', 'gorgeous', 'stunning'], nonSynonyms: ['ugly', 'hideous', 'unattractive', 'plain', 'homely', 'unsightly', 'repulsive', 'grotesque', 'ghastly', 'repugnant'] },
+      { word: 'ugly', synonyms: ['hideous', 'unattractive', 'unsightly'], nonSynonyms: ['beautiful', 'pretty', 'attractive', 'lovely', 'handsome', 'gorgeous', 'stunning', 'comely', 'fair', 'alluring'] },
+      { word: 'smart', synonyms: ['intelligent', 'clever', 'brilliant'], nonSynonyms: ['dumb', 'stupid', 'foolish', 'idiotic', 'dense', 'brainless', 'dim-witted', 'slow-witted', 'simple-minded', 'obtuse'] },
+      { word: 'dumb', synonyms: ['stupid', 'foolish', 'idiotic'], nonSynonyms: ['smart', 'intelligent', 'clever', 'brilliant', 'bright', 'sharp', 'astute', 'quick-witted', 'perceptive', 'insightful'] 
+      { word: 'strong', synonyms: ['powerful', 'mighty', 'robust'], nonSynonyms: ['weak', 'feeble', 'frail', 'fragile', 'delicate', 'infirm', 'puny', 'flimsy', 'brittle', 'decrepit'] },
+      { word: 'weak', synonyms: ['feeble', 'frail', 'fragile'], nonSynonyms: ['strong', 'powerful', 'mighty', 'robust', 'sturdy', 'tough', 'potent', 'vigorous', 'indomitable', 'formidale'] },
+      { word: 'loud', synonyms: ['noisy', 'blaring', 'deafening'], nonSynonyms: ['quiet', 'silent', 'soft', 'muted', 'muffled', 'hushed', 'subdued', 'gentle', 'faint', 'inaudible'] },
+      { word: 'quiet', synonyms: ['silent', 'hushed', 'peaceful'], nonSynonyms: ['loud', 'noisy', 'boisterous', 'raucous', 'rowdy', 'clamorous', 'vociferous', 'strident', 'thunderous', 'earsplitting'] },
+      { word: 'tall', synonyms: ['high', 'lofty', 'towering'], nonSynonyms: ['short', 'low', 'petite', 'diminutive', 'tiny', 'small', 'squat', 'stunted', 'dwarfed', 'compressed'] },
+      { word: 'short', synonyms: ['brief', 'concise', 'succinct'], nonSynonyms: ['tall', 'long', 'lengthy', 'extended', 'prolonged', 'protracted', 'drawn-out', 'interminable', 'endless', 'rambling'] },
+      { word: 'rich', synonyms: ['wealthy', 'affluent', 'prosperous'], nonSynonyms: ['poor', 'destitute', 'impoverished', 'needy', 'indigent', 'penniless', 'broke', 'bankrupt', 'insolvent', 'poverty-stricken'] },
+      { word: 'poor', synonyms: ['destitute', 'impoverished', 'needy'], nonSynonyms: ['rich', 'wealthy', 'affluent', 'prosperous', 'well-off', 'moneyed', 'opulent', 'luxurious', 'flush', 'loaded'] },
+      { word: 'clean', synonyms: ['pristine', 'spotless', 'immaculate'], nonSynonyms: ['dirty', 'filthy', 'soiled', 'grimy', 'squalid', 'polluted', 'contaminated', 'tainted', 'unsanitary', 'foul'] },
+      { word: 'dirty', synonyms: ['filthy', 'soiled', 'grimy'], nonSynonyms: ['clean', 'pristine', 'spotless', 'immaculate', 'unsullied', 'pure', 'sanitary', 'hygienic', 'unblemished', 'unsoiled'] },
+      { word: 'bright', synonyms: ['luminous', 'radiant', 'brilliant'], nonSynonyms: ['dark', 'dim', 'dull', 'gloomy', 'shadowy', 'murky', 'obscure', 'dusky', 'somber', 'tenebrous'] },
+      { word: 'dark', synonyms: ['dim', 'gloomy', 'shadowy'], nonSynonyms: ['bright', 'light', 'luminous', 'radiant', 'shining', 'illuminated', 'incandescent', 'lucid', 'vivid', 'resplendent'] },
+      { word: 'brave', synonyms: ['courageous', 'valiant', 'heroic'], nonSynonyms: ['cowardly', 'timid', 'fearful', 'craven', 'spineless', 'pusillanimous', 'lily-livered', 'yellow-bellied', 'chicken-hearted', 'faint-hearted'] },
+      { word: 'cowardly', synonyms: ['timid', 'fearful', 'craven'], nonSynonyms: ['brave', 'courageous', 'valiant', 'heroic', 'bold', 'daring', 'intrepid', 'audacious', 'fearless', 'undaunted'] },
+      { word: 'easy', synonyms: ['simple', 'effortless', 'straightforward'], nonSynonyms: ['difficult', 'hard', 'challenging', 'demanding', 'arduous', 'laborious', 'onerous', 'burdensome', 'strenuous', 'formidable'] },
+      { word: 'difficult', synonyms: ['hard', 'challenging', 'arduous'], nonSynonyms: ['easy', 'simple', 'effortless', 'straightforward', 'uncomplicated', 'facile', 'painless', 'undemanding', 'elementary', 'trivial'] },
+      { word: 'exciting', synonyms: ['thrilling', 'exhilarating', 'stimulating'], nonSynonyms: ['boring', 'dull', 'monotonous', 'tedious', 'tiresome', 'humdrum', 'uninteresting', 'insipid', 'bland', 'prosaic'] },
+      { word: 'boring', synonyms: ['dull', 'monotonous', 'tedious'], nonSynonyms: ['exciting', 'interesting', 'fascinating', 'engaging', 'riveting', 'captivating', 'compelling', 'stimulating', 'intriguing', 'gripping'] },
+      { word: 'rough', synonyms: ['coarse', 'jagged', 'uneven'], nonSynonyms: ['smooth', 'polished', 'even', 'level', 'flat', 'sleek', 'glossy', 'silky', 'velvety', 'satiny'] },
+      { word: 'smooth', synonyms: ['polished', 'sleek', 'silky'], nonSynonyms: ['rough', 'coarse', 'jagged', 'uneven', 'bumpy', 'rugged', 'craggy', 'gritty', 'pitted', 'corrugated'] },
+      { word: 'sweet', synonyms: ['sugary', 'honeyed', 'saccharine'], nonSynonyms: ['sour', 'bitter', 'tart', 'acidic', 'pungent', 'acrid', 'tangy', 'astringent', 'unsweetened', 'savory'] },
+      { word: 'sour', synonyms: ['bitter', 'tart', 'acidic'], nonSynonyms: ['sweet', 'sugary', 'honeyed', 'saccharine', 'dulcet', 'cloying', 'syrupy', 'candied', 'nectarous', 'ambrosial'] }
       { word: 'sad', synonyms: ['sorrowful', 'gloomy', 'depressed'], nonSynonyms: ['happy', 'excited', 'energetic'] },
       { word: 'big', synonyms: ['large', 'huge', 'massive'], nonSynonyms: ['small', 'tiny', 'little'] },
       { word: 'small', synonyms: ['tiny', 'little', 'miniature'], nonSynonyms: ['big', 'huge', 'enormous'] },
-      // Add more word-synonym-nonSynonym pairs
     ];
     let words = [];
     let score = 0;
     let speed = 2;
-    let jumpHeight = 50;
+    let jumpHeight = 100;
     let isJumping = false;
     let targetWord = '';
     
@@ -67,17 +96,12 @@
     
     function createWord() {
       const wordData = wordsData.find(data => data.word === targetWord);
+      const allWords = [...wordData.synonyms, ...wordData.nonSynonyms];
+      const randomIndex = Math.floor(Math.random() * allWords.length);
       const wordElement = document.createElement('div');
       wordElement.classList.add('word');
-      
-      if (Math.random() < 0.5) {
-        wordElement.innerText = wordData.synonyms[Math.floor(Math.random() * wordData.synonyms.length)];
-        wordElement.isSynonym = true;
-      } else {
-        wordElement.innerText = wordData.nonSynonyms[Math.floor(Math.random() * wordData.nonSynonyms.length)];
-        wordElement.isSynonym = false;
-      }
-      
+      wordElement.innerText = allWords[randomIndex];
+      wordElement.isSynonym = wordData.synonyms.includes(allWords[randomIndex]);
       wordElement.style.left = gameContainer.offsetWidth + 'px';
       wordElement.speed = speed;
       gameContainer.appendChild(wordElement);
