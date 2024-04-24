@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vocabulary Game</title>
+  <style>
+    #game-container {
+      width: 800px;
+      height: 400px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid black;
+    }
+    
+    #player {
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      bottom: 50px;
+      left: 50px;
+      background-color: yellow;
+      border-radius: 50%;
+    }
+    
+    .word {
+      position: absolute;
+      font-size: 20px;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <div id="player"></div>
+  </div>
+  
+  <script>
+    const gameContainer = document.getElementById('game-container');
+    const player = document.getElementById('player');
+    const wordsData = [
+      { word: 'happy', synonym: 'joyful' },
+      { word: 'sad', synonym: 'sorrowful' },
+      { word: 'big', synonym: 'large' },
+      { word: 'small', synonym: 'tiny' },
+      // Add more word-synonym pairs
+    ];
+    let words = [];
+    let score = 0;
+    let speed = 2;
+    let jumpHeight = 150;
+    let isJumping = false;
+    
+    function createWord() {
+      const wordData = wordsData[Math.floor(Math.random() * wordsData.length)];
+      const wordElement = document.createElement('div');
+      wordElement.classList.add('word');
+      wordElement.innerText = wordData.word;
+      wordElement.style.top = Math.random() * 300 + 'px';
+      wordElement.style.left = gameContainer.offsetWidth + 'px';
+      wordElement.speed = speed;
+      wordElement.isSynonym = wordData.word === wordData.synonym;
+      gameContainer.appendChild(wordElement);
+      words.push(wordElement);
+    }
+    
+    function moveWords() {
+      words.forEach(word => {
+        word.style.left = word.offsetLeft - word.speed + 'px';
+        
+        if (word.offsetLeft < -word.offsetWidth) {
+          gameContainer.removeChild(word);
+          words = words.filter(w => w !== word);
+        }
+        
+        if (isColliding(player, word)) {
+          if (word.isSynonym) {
+            score++;
+            if (score % 3 === 0) {
+              speed++;
+            }
+          } else {
+            gameOver();
+          }
+          gameContainer.removeChild(word);
+          words = words.filter(w => w !== word);
+        }
+      });
+    }
+    
+    function isColliding(element1, element2) {
+      const rect1 = element1.getBoundingClientRect();
+      const rect2 = element2.getBoundingClientRect();
+      
+      return (
+        rect1.left < rect2.right &&
+        rect1.right > rect2.left &&
+        rect1.top < rect2.bottom &&
+        rect1.bottom > rect2.top
+      );
+    }
+    
+    function gameOver() {
+      alert('Game Over! Your score: ' + score);
+      location.reload();
+    }
+    
+    function jump() {
+      if (!isJumping) {
+        isJumping = true;
+        let position = 0;
+        const jumpInterval = setInterval(() => {
+          if (position >= jumpHeight) {
+            clearInterval(jumpInterval);
+            let downInterval = setInterval(() => {
+              if (position <= 0) {
+                clearInterval(downInterval);
+                isJumping = false;
+              }
+              position -= 10;
+              player.style.bottom = position + 'px';
+            }, 20);
+          }
+          position += 10;
+          player.style.bottom = position + 'px';
+        }, 20);
+      }
+    }
+    
+    function startGame() {
+      setInterval(createWord, 2000);
+      setInterval(moveWords, 20);
+    }
+    
+    document.addEventListener('keydown', e => {
+      if (e.code === 'Space') {
+        jump();
+      }
+    });
+    
+    startGame();
+  </script>
+</body>
+</html>
