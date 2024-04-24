@@ -5,7 +5,7 @@
   <style>
     #game-container {
       width: 800px;
-      height: 400px;
+      height: 200px;
       position: relative;
       overflow: hidden;
       border: 1px solid black;
@@ -15,7 +15,7 @@
       width: 50px;
       height: 50px;
       position: absolute;
-      bottom: 50px;
+      bottom: 0;
       left: 50px;
       background-color: yellow;
       border-radius: 50%;
@@ -25,10 +25,18 @@
       position: absolute;
       font-size: 20px;
       color: black;
+      bottom: 10px;
+    }
+    
+    #target-word {
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
+  <div id="target-word"></div>
   <div id="game-container">
     <div id="player"></div>
   </div>
@@ -36,28 +44,42 @@
   <script>
     const gameContainer = document.getElementById('game-container');
     const player = document.getElementById('player');
+    const targetWordElement = document.getElementById('target-word');
     const wordsData = [
-      { word: 'happy', synonym: 'joyful' },
-      { word: 'sad', synonym: 'sorrowful' },
-      { word: 'big', synonym: 'large' },
-      { word: 'small', synonym: 'tiny' },
-      // Add more word-synonym pairs
+      { word: 'happy', synonyms: ['joyful', 'cheerful', 'elated'], nonSynonyms: ['sad', 'angry', 'tired'] },
+      { word: 'sad', synonyms: ['sorrowful', 'gloomy', 'depressed'], nonSynonyms: ['happy', 'excited', 'energetic'] },
+      { word: 'big', synonyms: ['large', 'huge', 'massive'], nonSynonyms: ['small', 'tiny', 'little'] },
+      { word: 'small', synonyms: ['tiny', 'little', 'miniature'], nonSynonyms: ['big', 'huge', 'enormous'] },
+      // Add more word-synonym-nonSynonym pairs
     ];
     let words = [];
     let score = 0;
     let speed = 2;
-    let jumpHeight = 150;
+    let jumpHeight = 50;
     let isJumping = false;
+    let targetWord = '';
+    
+    function selectTargetWord() {
+      const randomWord = wordsData[Math.floor(Math.random() * wordsData.length)];
+      targetWord = randomWord.word;
+      targetWordElement.innerText = 'Find a synonym for: ' + targetWord;
+    }
     
     function createWord() {
-      const wordData = wordsData[Math.floor(Math.random() * wordsData.length)];
+      const wordData = wordsData.find(data => data.word === targetWord);
       const wordElement = document.createElement('div');
       wordElement.classList.add('word');
-      wordElement.innerText = wordData.word;
-      wordElement.style.top = Math.random() * 300 + 'px';
+      
+      if (Math.random() < 0.5) {
+        wordElement.innerText = wordData.synonyms[Math.floor(Math.random() * wordData.synonyms.length)];
+        wordElement.isSynonym = true;
+      } else {
+        wordElement.innerText = wordData.nonSynonyms[Math.floor(Math.random() * wordData.nonSynonyms.length)];
+        wordElement.isSynonym = false;
+      }
+      
       wordElement.style.left = gameContainer.offsetWidth + 'px';
       wordElement.speed = speed;
-      wordElement.isSynonym = wordData.word === wordData.synonym;
       gameContainer.appendChild(wordElement);
       words.push(wordElement);
     }
@@ -77,6 +99,7 @@
             if (score % 3 === 0) {
               speed++;
             }
+            selectTargetWord();
           } else {
             gameOver();
           }
@@ -126,6 +149,7 @@
     }
     
     function startGame() {
+      selectTargetWord();
       setInterval(createWord, 2000);
       setInterval(moveWords, 20);
     }
