@@ -47,6 +47,10 @@
     const targetWordElement = document.getElementById('target-word');
     const wordsData = [
       { word: 'happy', synonyms: ['joyful', 'cheerful', 'elated'], nonSynonyms: ['sad', 'angry', 'tired'] },
+      { word: 'sad', synonyms: ['sorrowful', 'gloomy', 'depressed'], nonSynonyms: ['happy', 'excited', 'energetic'] },
+      { word: 'big', synonyms: ['large', 'huge', 'massive'], nonSynonyms: ['small', 'tiny', 'little'] },
+      { word: 'small', synonyms: ['tiny', 'little', 'miniature'], nonSynonyms: ['big', 'huge', 'enormous'] },
+      { word: 'happy', synonyms: ['joyful', 'cheerful', 'elated'], nonSynonyms: ['sad', 'angry', 'tired'] },
       { word: 'fast', synonyms: ['quick', 'swift', 'rapid'], nonSynonyms: ['slow', 'sluggish', 'leisurely', 'gradual', 'unhurried', 'measured', 'steady', 'plodding', 'crawling', 'snail-paced'] },
       { word: 'slow', synonyms: ['sluggish', 'leisurely', 'unhurried'], nonSynonyms: ['fast', 'quick', 'swift', 'rapid', 'speedy', 'brisk', 'hasty', 'hurried', 'expeditious', 'fleet'] },
       { word: 'hot', synonyms: ['scorching', 'sizzling', 'fiery'], nonSynonyms: ['cold', 'freezing', 'chilly', 'cool', 'lukewarm', 'tepid', 'frosty', 'icy', 'frigid', 'wintry'] },
@@ -80,6 +84,7 @@
       { word: 'sad', synonyms: ['sorrowful', 'gloomy', 'depressed'], nonSynonyms: ['happy', 'excited', 'energetic'] },
       { word: 'big', synonyms: ['large', 'huge', 'massive'], nonSynonyms: ['small', 'tiny', 'little'] },
       { word: 'small', synonyms: ['tiny', 'little', 'miniature'], nonSynonyms: ['big', 'huge', 'enormous'] },
+    ]; 
     ];
     let words = [];
     let score = 0;
@@ -103,6 +108,7 @@
       wordElement.innerText = allWords[randomIndex];
       wordElement.isSynonym = wordData.synonyms.includes(allWords[randomIndex]);
       wordElement.style.left = gameContainer.offsetWidth + 'px';
+      wordElement.style.bottom = Math.random() * (gameContainer.offsetHeight - 50) + 'px';
       wordElement.speed = speed;
       gameContainer.appendChild(wordElement);
       words.push(wordElement);
@@ -110,9 +116,9 @@
     
     function moveWords() {
       words.forEach(word => {
-        word.style.left = word.offsetLeft - word.speed + 'px';
+        word.style.left = parseInt(word.style.left) - word.speed + 'px';
         
-        if (word.offsetLeft < -word.offsetWidth) {
+        if (parseInt(word.style.left) < -word.offsetWidth) {
           gameContainer.removeChild(word);
           words = words.filter(w => w !== word);
         }
@@ -176,15 +182,15 @@
       selectTargetWord();
       setInterval(createWord, 2000);
       setInterval(moveWords, 20);
+      document.addEventListener('keydown', e => {
+        if (e.code === 'Space') {
+          jump();
+        }
+      });
     }
-    
-    document.addEventListener('keydown', e => {
-      if (e.code === 'Space') {
-        jump();
-      }
-    });
     
     startGame();
   </script>
 </body>
 </html>
+
